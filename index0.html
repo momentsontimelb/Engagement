@@ -21,14 +21,6 @@
       --color-gold: #b08d3f;
       --color-gold-light: #d9bd7c;
       --color-rose: #c98a83;
-      --env-top: #f4f0e6;
-      --env-side: #eee9dd;
-      --env-bottom: #efe9dd;
-      --env-crease: rgba(120, 105, 75, 0.18);
-      --seal-dark: #460f16;
-      --seal-mid: #7c2229;
-      --seal-light: #9c3a3c;
-      --seal-text: #f2ddac;
       --font-display-en: 'Cormorant Garamond', serif;
       --font-display-ar: 'Aref Ruqaa', serif;
       --font-body-en: 'Jost', sans-serif;
@@ -44,11 +36,9 @@
     body {
       margin: 0;
       padding: 0;
-      background: var(--color-card);
+      background: var(--color-bg);
       color: var(--color-card);
       min-height: 100%;
-      overflow: hidden;
-      /* disable scrolling */
     }
 
     body {
@@ -130,67 +120,29 @@
       outline-offset: 2px;
     }
 
-    /* ---------- Scene 1: envelope (cream envelope-back + wax seal) ---------- */
+    /* ---------- Scene 1: envelope ---------- */
     .envelope-scene {
       position: relative;
       min-height: 100svh;
       display: flex;
       align-items: center;
       justify-content: center;
-      background: var(--env-bottom);
+      background:
+        radial-gradient(circle at 50% 20%, rgba(217, 189, 124, 0.10), transparent 55%),
+        radial-gradient(ellipse at 50% 100%, rgba(0, 0, 0, 0.35), transparent 60%),
+        var(--color-bg);
       overflow: hidden;
-      perspective: 1400px;
-      transition: opacity 0.4s ease .3s;
+      padding: 24px;
     }
 
-    .envelope-scene.is-launching {
-      opacity: 0;
-      pointer-events: none;
-    }
-
-    /* four creases running from each corner to the centre, like the
-       back of a real envelope, tinted slightly differently per panel */
-    .fold {
-      position: absolute;
-      background: var(--env-side);
-    }
-
-    .fold-top {
-      inset: 0;
-      clip-path: polygon(0 0, 100% 0, 50% 50%);
-      background: var(--env-top);
-      transform-origin: 50% 0%;
-      transition: transform 0.6s cubic-bezier(.4, 0, .2, 1), opacity 0.4s ease .2s;
-      z-index: 3;
-      box-shadow: 0 2px 14px rgba(0, 0, 0, 0.08);
-    }
-
-    .fold-left {
-      inset: 0;
-      clip-path: polygon(0 0, 50% 50%, 0 100%);
-    }
-
-    .fold-right {
-      inset: 0;
-      clip-path: polygon(100% 0, 50% 50%, 100% 100%);
-    }
-
-    .fold-bottom {
-      inset: 0;
-      clip-path: polygon(0 100%, 50% 50%, 100% 100%);
-      background: var(--env-bottom);
-    }
-
-    /* faint crease lines along the folds */
     .envelope-scene::before {
       content: "";
       position: absolute;
       inset: 0;
-      background:
-        linear-gradient(to bottom right, transparent calc(50% - 1px), var(--env-crease) 50%, transparent calc(50% + 1px)),
-        linear-gradient(to bottom left, transparent calc(50% - 1px), var(--env-crease) 50%, transparent calc(50% + 1px));
+      background-image: radial-gradient(rgba(217, 189, 124, 0.35) 1px, transparent 1px);
+      background-size: 46px 46px;
+      opacity: 0.18;
       pointer-events: none;
-      z-index: 4;
     }
 
     .prompt-text {
@@ -202,9 +154,8 @@
       font-size: 13px;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: var(--color-ink-soft);
-      opacity: 0.7;
-      z-index: 6;
+      color: var(--color-gold-light);
+      opacity: 0.85;
       animation: floatHint 2.6s ease-in-out infinite;
     }
 
@@ -219,134 +170,139 @@
       0%,
       100% {
         transform: translateY(0);
-        opacity: .7;
+        opacity: .85;
       }
 
       50% {
         transform: translateY(-6px);
-        opacity: .95;
+        opacity: 1;
       }
     }
 
     .envelope {
-      position: absolute;
-      inset: 0;
+      position: relative;
+      width: min(360px, 82vw);
+      aspect-ratio: 3/2;
       cursor: pointer;
+      perspective: 1200px;
       -webkit-tap-highlight-color: transparent;
     }
 
     .envelope:focus-visible {
-      outline: none;
-    }
-
-    .envelope:focus-visible .seal {
       outline: 2px solid var(--color-rose);
       outline-offset: 6px;
-      border-radius: 50%;
     }
 
-    /* ---------- wax seal ---------- */
+    .env-body {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, #1c352f, #142a25);
+      border: 1px solid rgba(217, 189, 124, 0.35);
+      border-radius: 4px;
+      box-shadow: 0 30px 60px -20px rgba(0, 0, 0, 0.6);
+    }
+
+    .env-body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(to bottom right, transparent 49.6%, rgba(217, 189, 124, 0.25) 50%, transparent 50.4%),
+        linear-gradient(to bottom left, transparent 49.6%, rgba(217, 189, 124, 0.25) 50%, transparent 50.4%);
+    }
+
+    .env-card-peek {
+      position: absolute;
+      left: 6%;
+      right: 6%;
+      top: 6%;
+      height: 70%;
+      background: var(--color-card);
+      border-radius: 2px;
+      box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.15) inset;
+      transition: transform 1.1s cubic-bezier(.2, .8, .2, 1);
+    }
+
+    .env-flap {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: 56%;
+      background: linear-gradient(160deg, #234a40, #17362e);
+      clip-path: polygon(0 0, 100% 0, 50% 92%);
+      transform-origin: top center;
+      transition: transform 1s cubic-bezier(.4, 0, .2, 1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      z-index: 3;
+    }
+
     .seal {
       position: absolute;
       left: 50%;
-      top: 50%;
-      width: min(120px, 26vw);
-      height: min(120px, 26vw);
+      top: 38%;
+      width: 64px;
+      height: 64px;
       transform: translate(-50%, -50%);
       z-index: 5;
-      transition: transform 0.5s cubic-bezier(.4, 0, .2, 1), opacity 0.4s ease;
+      transition: transform .6s ease, opacity .6s ease;
     }
 
-    .seal-shadow {
-      position: absolute;
-      left: 50%;
-      top: 58%;
-      width: 88%;
-      height: 88%;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(0, 0, 0, 0.28), transparent 72%);
-      filter: blur(6px);
-      z-index: 0;
+    .seal svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+      filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.4));
     }
 
-    .seal-body {
-      position: absolute;
-      inset: 0;
-      border-radius: 50%;
-      z-index: 1;
-      background:
-        radial-gradient(circle at 32% 26%, rgba(255, 255, 255, 0.22), transparent 40%),
-        radial-gradient(circle at 62% 70%, var(--seal-dark), transparent 70%),
-        radial-gradient(circle at 38% 34%, var(--seal-light) 0%, var(--seal-mid) 46%, var(--seal-dark) 100%);
-      box-shadow:
-        0 2px 4px rgba(0, 0, 0, 0.35),
-        0 10px 18px -6px rgba(0, 0, 0, 0.5),
-        inset 0 2px 3px rgba(255, 255, 255, 0.25),
-        inset 0 -6px 10px rgba(0, 0, 0, 0.45);
-      /* subtle bumpy wax edge, faked with a soft irregular halo */
-      outline: 3px solid var(--seal-dark);
-      outline-offset: -3px;
-    }
-
-    .seal-body::after {
-      /* imperfect blob edge */
-      content: "";
-      position: absolute;
-      inset: -4%;
-      border-radius: 46% 54% 51% 49% / 52% 48% 53% 47%;
-      border: 2px solid var(--seal-dark);
-      opacity: 0.55;
-      pointer-events: none;
-    }
-
-    .seal-dome {
-      position: absolute;
-      inset: 14%;
-      border-radius: 50%;
-      z-index: 2;
-      background: radial-gradient(circle at 34% 28%, rgba(255, 235, 210, 0.5), transparent 55%);
-      pointer-events: none;
-    }
-
-    .seal-text {
-      position: absolute;
-      inset: 0;
-      z-index: 3;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-display-en);
-      font-size: min(30px, 6.5vw);
-      letter-spacing: 0.02em;
-      color: var(--seal-text);
-      text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.25);
-      user-select: none;
+    .seal-half {
+      transition: transform .55s cubic-bezier(.3, 0, .4, 1), opacity .55s ease;
     }
 
     /* opened state */
-    .envelope.is-open .fold-top {
-      transform: rotateX(158deg);
+    .envelope.is-open .env-flap {
+      transform: rotateX(180deg);
     }
 
-    .envelope.is-open .seal {
-      transform: translate(-50%, -50%) scale(0.75) rotate(-8deg);
+    .envelope.is-open .seal .seal-left {
+      transform: translate(-10px, -4px) rotate(-14deg);
       opacity: 0;
+    }
+
+    .envelope.is-open .seal .seal-right {
+      transform: translate(10px, -4px) rotate(14deg);
+      opacity: 0;
+    }
+
+    .envelope.is-open .env-card-peek {
+      transform: translateY(-64%) scale(1.04);
+    }
+
+    .envelope.is-launching .env-card-peek {
+      transform: translateY(-260%) scale(1.15);
+      opacity: 0;
+    }
+
+    .envelope.is-launching {
+      opacity: 0;
+      transition: opacity .5s ease .35s;
     }
 
     /* ---------- Scene 2: invitation ---------- */
     .invite-scene {
-      height: 100vh;
-      /* full viewport height */
-      width: 100vw;
+      position: relative;
+      min-height: 100vh;
       display: flex;
       align-items: center;
-      /* vertical centering */
       justify-content: center;
-      /* horizontal centering */
-      background: var(--color-card);
-      /* cream background */
-      padding: 0;
+      padding: 90px 20px 70px;
+      background:
+        radial-gradient(circle at 15% 10%, rgba(201, 138, 131, 0.08), transparent 45%),
+        radial-gradient(circle at 85% 90%, rgba(217, 189, 124, 0.08), transparent 45%),
+        var(--color-bg);
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity .9s ease, transform .9s ease;
     }
 
     .invite-scene.is-visible {
@@ -361,10 +317,8 @@
       color: var(--color-ink);
       border-radius: 6px;
       padding: 56px 42px 46px;
-      box-shadow: none;
-      /* optional: remove shadow */
-      border: none;
-      /* optional: remove border */
+      box-shadow: 0 40px 80px -30px rgba(0, 0, 0, 0.55);
+      position: relative;
     }
 
     .card::before {
@@ -722,17 +676,24 @@
   </div>
 
   <!-- SCENE 1: ENVELOPE -->
-  <section class="envelope-scene" id="envelopeScene" aria-label="Open invitation">
-    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Tap the seal to open the invitation">
-      <div class="fold fold-left"></div>
-      <div class="fold fold-right"></div>
-      <div class="fold fold-bottom"></div>
-      <div class="fold fold-top"></div>
-      <div class="seal">
-        <div class="seal-shadow"></div>
-        <div class="seal-body"></div>
-        <div class="seal-dome"></div>
-        <div class="seal-text display-text">A &amp; L</div>
+  <section class="envelope-scene" aria-label="Open invitation">
+    <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Tap to open the invitation">
+      <div class="env-card-peek"></div>
+      <div class="env-body"></div>
+      <div class="env-flap">
+        <div class="seal">
+          <svg viewBox="0 0 64 64">
+            <g class="seal-left">
+              <path d="M32 2 A30 30 0 0 0 32 62 L32 2 Z" fill="#8c5a24" />
+            </g>
+            <g class="seal-right">
+              <path d="M32 2 A30 30 0 0 1 32 62 L32 2 Z" fill="#b08d3f" />
+            </g>
+            <circle cx="32" cy="32" r="30" fill="none" stroke="#3a2712" stroke-width="1" opacity="0.4" />
+            <text x="32" y="40" text-anchor="middle" font-size="26" font-family="Cormorant Garamond, serif"
+              fill="#f4e9cf">A&amp;L</text>
+          </svg>
+        </div>
       </div>
     </div>
     <p class="prompt-text">
@@ -780,8 +741,7 @@
       <div class="details">
         <div class="detail-item">
           <div class="detail-label"><span class="i18n-en">Date</span><span class="i18n-ar">التاريخ</span></div>
-          <div class="detail-value"><span class="i18n-en">Sunday, July 26, 2026</span><span class="i18n-ar">الأحد، ٢٦
-              تموز ٢٠٢٦</span></div>
+          <div class="detail-value"><span class="i18n-en">Sunday, July 26, 2026</span><span class="i18n-ar">الأحد، ٢٦ تموز ٢٠٢٦</span></div>
         </div>
         <div class="detail-item">
           <div class="detail-label"><span class="i18n-en">Time</span><span class="i18n-ar">الوقت</span></div>
@@ -789,13 +749,11 @@
         </div>
         <div class="detail-item">
           <div class="detail-label"><span class="i18n-en">Venue</span><span class="i18n-ar">القاعة</span></div>
-          <div class="detail-value"><span class="i18n-en">مطعم واحة السلام</span><span class="i18n-ar">مطعم واحة
-              السلام</span></div>
+          <div class="detail-value"><span class="i18n-en">مطعم واحة السلام</span><span class="i18n-ar">مطعم واحة السلام</span></div>
         </div>
         <div class="detail-item">
           <div class="detail-label"><span class="i18n-en">City</span><span class="i18n-ar">المدينة</span></div>
-          <div class="detail-value"><span class="i18n-en">Saida , Sharhabil</span><span class="i18n-ar">صيدا ،
-              شرحبيل</span></div>
+          <div class="detail-value"><span class="i18n-en">Saida , Sharhabil</span><span class="i18n-ar">صيدا ، شرحبيل</span></div>
         </div>
       </div>
 
@@ -828,7 +786,6 @@
 
       /* ---------- Envelope open interaction ---------- */
       var envelope = document.getElementById('envelope');
-      var envelopeScene = document.getElementById('envelopeScene');
       var inviteScene = document.getElementById('inviteScene');
       var opened = false;
 
@@ -837,12 +794,12 @@
         opened = true;
         envelope.classList.add('is-open');
         setTimeout(function () {
-          envelopeScene.classList.add('is-launching');
-        }, 400);
+          envelope.classList.add('is-launching');
+        }, 650);
         setTimeout(function () {
           inviteScene.classList.add('is-visible');
           inviteScene.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }, 600);
+        }, 900);
       }
 
       envelope.addEventListener('click', openInvitation);
