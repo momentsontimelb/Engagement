@@ -49,6 +49,8 @@
       min-height: 100%;
       overflow: hidden;
       /* disable scrolling */
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
     }
 
     body {
@@ -810,6 +812,13 @@
   <script>
     (function () {
       "use strict";
+      var meta = document.querySelector('meta[name=viewport]');
+      if (!meta) {
+        meta = document.createElement('meta');
+        meta.name = "viewport";
+        document.head.appendChild(meta);
+      }
+      meta.content = "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
 
       /* ---------- Language toggle ---------- */
       var root = document.documentElement;
