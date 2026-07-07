@@ -894,21 +894,6 @@
          Replace this URL with a real Google Maps link/embed for the venue. */
       document.getElementById('mapLink').href = 'https://maps.app.goo.gl/wmdYqMfQ6RbbsqK9A';
 
-
-      // Reset to envelope scene on page load/refresh
-      window.addEventListener('load', function () {
-        // Remove any "open" classes
-        document.getElementById('envelope').classList.remove('is-open');
-        document.getElementById('envelopeScene').classList.remove('is-launching');
-        document.getElementById('inviteScene').classList.remove('is-visible');
-
-        // Reset the flag
-        opened = false;
-
-        // Scroll back to envelope
-        document.getElementById('envelopeScene').scrollIntoView({ behavior: 'auto', block: 'start' });
-      });
-
     })();
   </script>
 </body>
