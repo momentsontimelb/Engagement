@@ -4,19 +4,23 @@
 const INVITATION = {
   waxInitials: "A & L",        // initials on the wax seal, e.g. "S & A"
   nameOne: "Abdulrhman",       // first name, big heading line 1
-  nameTwo: "Lara",             // second name, big heading line 3
+  nameOneAr: "عبد الرحمن",       // first name, big heading line 1
+  nameTwo: "Lara",             // second name, big heading line 3  nameOne: "Abdulrhman",       // first name, big heading line 1
+  nameTwoAr: "لارا",             // second name, big heading line 3
   subtitle: "Two Hearts, One Love, Endless Joy",
-  eventDateTime: "2026-09-12T18:00:00", // countdown target: YYYY-MM-DDTHH:MM:SS
+  eventDateTime: "2026-07-26T19:00:00", // countdown target: YYYY-MM-DDTHH:MM:SS
 
-  displayDate: "September 12, 2026",   // shown under the countdown
-  displayTime: "6:00 PM",
-  venueName: "The Grand Garden Hall, Beirut",
+  displayDate: "July 26, 2026",   // shown under the countdown
+  displayTime: "7:00 PM",
+  venueName: "مطعم واحة السلام",
+  cityName: "Saida , Sharhabil",
+  cityNameAr: "صيدا ، شرحبيل",
 
   // Easiest option: paste a Google Maps share link here (Share > Copy link)
   // and it is used as-is. Leave "" to auto-build a search link from
   // venueAddress instead.
-  googleMapsUrl: "",
-  venueAddress: "The Grand Garden Hall, Beirut, Lebanon"
+  googleMapsUrl: "https://maps.app.goo.gl/wmdYqMfQ6RbbsqK9A",
+  venueAddress: "مطعم واحة السلام, Saida, Lebanon"
 };
 
 // =====================================================
@@ -32,10 +36,15 @@ const TRANSLATIONS = {
     hours: "Hours",
     minutes: "Minutes",
     seconds: "Seconds",
+    dateLabel: "Date",
+    timeLabel: "Time",
+    venueLabel: "Venue",
+    cityLabel: "City",
     displayDate: INVITATION.displayDate,
     displayTime: INVITATION.displayTime,
     venueName: INVITATION.venueName,
-    mapButton: "View Location on Map",
+    cityName: INVITATION.cityName,
+    mapButton: "View location on map",
     nameOne: INVITATION.nameOne,
     nameTwo: INVITATION.nameTwo
   },
@@ -46,12 +55,17 @@ const TRANSLATIONS = {
     hours: "ساعات",
     minutes: "دقائق",
     seconds: "ثواني",
-    displayDate: "١٢ سبتمبر ٢٠٢٦",
-    displayTime: "٦:٠٠ مساءً",
-    venueName: "قاعة الحديقة الكبرى، بيروت",
+    dateLabel: "التاريخ",
+    timeLabel: "الوقت",
+    venueLabel: "المكان",
+    cityLabel: "المدينة",
+    displayDate: "الأحد، ٢٦ تموز ٢٠٢٦",
+    displayTime: "٧:٠٠ مساءً",
+    venueName: INVITATION.venueName,
+    cityName: INVITATION.cityNameAr,
     mapButton: "عرض الموقع على الخريطة",
-    nameOne: INVITATION.nameOne,
-    nameTwo: INVITATION.nameTwo
+    nameOne: INVITATION.nameOneAr,
+    nameTwo: INVITATION.nameTwoAr
   }
 };
 
@@ -87,9 +101,15 @@ function applyLanguage(lang) {
   document.getElementById("cdLabelMinutes").textContent = t.minutes;
   document.getElementById("cdLabelSeconds").textContent = t.seconds;
 
+  document.getElementById("labelDate").textContent = t.dateLabel;
+  document.getElementById("labelTime").textContent = t.timeLabel;
+  document.getElementById("labelVenue").textContent = t.venueLabel;
+  document.getElementById("labelCity").textContent = t.cityLabel;
+
   document.getElementById("detailDate").textContent = t.displayDate;
   document.getElementById("detailTime").textContent = t.displayTime;
   document.getElementById("detailVenue").textContent = t.venueName;
+  document.getElementById("detailCity").textContent = t.cityName;
   document.getElementById("mapButtonLabel").textContent = t.mapButton;
 
   const isArabic = lang === "ar";
