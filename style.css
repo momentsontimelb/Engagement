@@ -391,6 +391,15 @@ body {
   text-align: left;
 }
 
+html[lang="ar"] .detail-item-r,
+html[dir="ltr"] .detail-item-r {
+  text-align: left;
+}
+
+html[lang="ar"] .detail-item-l,
+html[dir="ltr"] .detail-item-l {
+  text-align: right;
+}
 
 .detail-label {
   display: block;
