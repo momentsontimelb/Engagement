@@ -74,11 +74,6 @@ const TRANSLATIONS = {
 // =====================================================
 function renderInvitation(data) {
   document.getElementById("waxInitials").textContent = data.waxInitials;
-
-  const mapButton = document.getElementById("mapButton");
-  mapButton.href = data.googleMapsUrl && data.googleMapsUrl.trim()
-    ? data.googleMapsUrl.trim()
-    : "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(data.venueAddress);
 }
 
 // =====================================================
@@ -105,7 +100,6 @@ function applyLanguage(lang) {
   document.getElementById("detailTime").textContent = t.displayTime;
   document.getElementById("detailVenue").textContent = t.venueName;
   document.getElementById("detailCity").textContent = t.cityName;
-  document.getElementById("mapButtonLabel").textContent = t.mapButton;
 
   const isArabic = lang === "ar";
   document.documentElement.lang = lang;
