@@ -106,7 +106,6 @@ function applyLanguage(lang) {
   document.documentElement.dir = isArabic ? "rtl" : "ltr";
   document.body.classList.toggle("lang-ar", isArabic);
 
-  document.getElementById("langToggle").textContent = isArabic ? "AR" : "EN";
 }
 
 // =====================================================
@@ -177,5 +176,4 @@ document.addEventListener("DOMContentLoaded", function () {
   scatterHearts("heartsEnvelope", 6);
   scatterHearts("heartsInvite", 5);
   initEnvelope();
-  initLangToggle();
 });
