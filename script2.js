@@ -11,7 +11,7 @@ const INVITATION = {
   eventDateTime: "2026-07-26T19:00:00", // countdown target: YYYY-MM-DDTHH:MM:SS
 
   displayDate: "July 26, 2026",   // shown under the countdown
-  displayTime: "8:00 PM",
+  displayTime: "7:00 PM",
   venueName: "مطعم واحة السلام",
   cityName: "Saida , Sharhabil",
   cityNameAr: "صيدا ، شرحبيل",
@@ -60,7 +60,7 @@ const TRANSLATIONS = {
     venueLabel: "المكان",
     cityLabel: "المدينة",
     displayDate: "الأحد، ٢٦ تموز ٢٠٢٦",
-    displayTime: "٨:٠٠ مساءً",
+    displayTime: "٧:٠٠ مساءً",
     venueName: INVITATION.venueName,
     cityName: INVITATION.cityNameAr,
     mapButton: "عرض الموقع على الخريطة",
@@ -95,6 +95,11 @@ function applyLanguage(lang) {
   document.getElementById("nameOne").textContent = t.nameOne;
   document.getElementById("nameTwo").textContent = t.nameTwo;
   document.getElementById("inviteSubtitle").textContent = t.subtitle;
+
+  document.getElementById("cdLabelDays").textContent = t.days;
+  document.getElementById("cdLabelHours").textContent = t.hours;
+  document.getElementById("cdLabelMinutes").textContent = t.minutes;
+  document.getElementById("cdLabelSeconds").textContent = t.seconds;
 
   document.getElementById("labelDate").textContent = t.dateLabel;
   document.getElementById("labelTime").textContent = t.timeLabel;
@@ -151,6 +156,42 @@ function pseudoRandom(index, salt) {
 }
 
 // =====================================================
+// Countdown timer
+// =====================================================
+function startCountdown(targetDateTime) {
+  const target = new Date(targetDateTime).getTime();
+  const daysEl = document.getElementById("cdDays");
+  const hoursEl = document.getElementById("cdHours");
+  const minutesEl = document.getElementById("cdMinutes");
+  const secondsEl = document.getElementById("cdSeconds");
+
+  function pad(n) {
+    return String(n).padStart(2, "0");
+  }
+
+  function tick() {
+    const now = Date.now();
+    let diff = Math.max(0, target - now);
+
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    diff -= days * 1000 * 60 * 60 * 24;
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    diff -= hours * 1000 * 60 * 60;
+    const minutes = Math.floor(diff / (1000 * 60));
+    diff -= minutes * 1000 * 60;
+    const seconds = Math.floor(diff / 1000);
+
+    daysEl.textContent = pad(days);
+    hoursEl.textContent = pad(hours);
+    minutesEl.textContent = pad(minutes);
+    secondsEl.textContent = pad(seconds);
+  }
+
+  tick();
+  setInterval(tick, 1000);
+}
+
+// =====================================================
 // Envelope -> Invitation transition
 // =====================================================
 function initEnvelope() {
@@ -182,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function () {
   applyLanguage("en");
   scatterHearts("heartsEnvelope", 6);
   scatterHearts("heartsInvite", 5);
+  startCountdown(INVITATION.eventDateTime);
   initEnvelope();
   initLangToggle();
 });
