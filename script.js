@@ -173,7 +173,7 @@ function initLangToggle() {
 
 document.addEventListener("DOMContentLoaded", function () {
   renderInvitation(INVITATION);
-  applyLanguage("en");
+  applyLanguage("ar");
   scatterHearts("heartsEnvelope", 6);
   scatterHearts("heartsInvite", 5);
   initEnvelope();
